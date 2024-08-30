@@ -2930,6 +2930,8 @@ type ServiceTemplateSpec struct {
 	// Volume represents a named volume in a container.
 	// Structure is documented below.
 	Volumes []ServiceTemplateSpecVolume `pulumi:"volumes"`
+
+	NodeSelector map[string]string `pulumi:"nodeSelector"`
 }
 
 // ServiceTemplateSpecInput is an input type that accepts ServiceTemplateSpecArgs and ServiceTemplateSpecOutput values.
@@ -2971,6 +2973,8 @@ type ServiceTemplateSpecArgs struct {
 	// Volume represents a named volume in a container.
 	// Structure is documented below.
 	Volumes ServiceTemplateSpecVolumeArrayInput `pulumi:"volumes"`
+
+	NodeSelector pulumi.StringMapInput `pulumi:"nodeSelector"`
 }
 
 func (ServiceTemplateSpecArgs) ElementType() reflect.Type {
@@ -3095,6 +3099,10 @@ func (o ServiceTemplateSpecOutput) Volumes() ServiceTemplateSpecVolumeArrayOutpu
 	return o.ApplyT(func(v ServiceTemplateSpec) []ServiceTemplateSpecVolume { return v.Volumes }).(ServiceTemplateSpecVolumeArrayOutput)
 }
 
+func (o ServiceTemplateSpecOutput) NodeSelector() pulumi.StringMapOutput {
+	return o.ApplyT(func(v ServiceTemplateSpec) map[string]string { return v.NodeSelector }).(pulumi.StringMapOutput)
+}
+
 type ServiceTemplateSpecPtrOutput struct{ *pulumi.OutputState }
 
 func (ServiceTemplateSpecPtrOutput) ElementType() reflect.Type {
@@ -3192,6 +3200,15 @@ func (o ServiceTemplateSpecPtrOutput) Volumes() ServiceTemplateSpecVolumeArrayOu
 		}
 		return v.Volumes
 	}).(ServiceTemplateSpecVolumeArrayOutput)
+}
+
+func (o ServiceTemplateSpecPtrOutput) NodeSelector() pulumi.StringMapOutput {
+	return o.ApplyT(func(v *ServiceTemplateSpec) map[string]string {
+		if v == nil {
+			return nil
+		}
+		return v.NodeSelector
+	}).(pulumi.StringMapOutput)
 }
 
 type ServiceTemplateSpecContainer struct {
